@@ -11,9 +11,9 @@ bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/bookmarks")
 
 # Create a book mark/return bookmarks for user
 @bookmarks.route("/", methods=['POST', 'GET'])
-@jwt_required
+
 def post_bookmark():
-    current_user = get_jwt_identity()
+    
 
     if request.method == 'POST':
 
@@ -27,7 +27,7 @@ def post_bookmark():
             return jsonify({'error': 'url already exists'}), HTTP_409_CONFLICT
 
 
-        bookmark = Bookmark(url=url, description=description, user_id=current_user)
+        bookmark = Bookmark(url=url, description=description)
         db.session.add(bookmark)
         db.session.commit()
 
@@ -36,7 +36,7 @@ def post_bookmark():
 
     else:
 
-        bookmarks = Bookmark.query.filter_by(user_id=current_user)
+        
 
         data = []
         for bookmark in bookmarks:
@@ -44,4 +44,25 @@ def post_bookmark():
         "updated":bookmark.updated, "visits":bookmark.visited})
 
         return jsonify({"data":data}), HTTP_200_OK
+
+
+
+# Get one bookmark
+@bookmarks.get("/<int:id>")
+
+def get_one(id):
+    
+
+    bookmark = Bookmark.query.filter_by( id=id).first()
+
+    if not bookmark:
+        return jsonify({'message': "bookmark not found"}), HTTP_404_NOT_FOUND
+
+    return jsonify({"id":bookmark.id, "description":bookmark.description, "url": bookmark.url, "created":bookmark.created, 
+        "updated":bookmark.updated, "visits":bookmark.visited}), HTTP_200_OK
+
+
+
+
+
 
