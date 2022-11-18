@@ -1,0 +1,57 @@
+/* CSS styling for navigation bar */
+/* The navigation bar is found within the <header></header> tags on each page */
+
+
+/* Setting the sizing applied to whole page */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* Aligning text */
+body {
+	text-align: center;
+}
+
+/* Styling the <header> */
+header {
+	height: 8vh;				/* Setting the height */
+	background: #262626;	   /* Setting the background colour */
+	width: 100%;				/* Setting the width */
+	z-index: 10;				/* Specifies the stack order */
+	position: fixed;			/* Positioned relative to the browser window */
+}
+
+/* Styling properties for myNav class */
+.myNav {
+	float: right;				/* Floats to the right */
+	line-height: 10vh;			/* Space between lines */
+}
+
+/* Styling properties for page links */
+.myNav li a {
+	text-decoration: none;		/* Removes the underline that shows it's a link */
+	font-family: sans-serif;	/* Font style */
+	letter-spacing: 0.25rem;	/* Space between letters */
+	font-size: 1.25rem;			/* Font style */
+	margin: 0  0.78vw;			/* Setting a margin */
+	color: #fff;			   /* Font colour */
+}
+
+
+/* Styling to remove unordered list style for page links */
+.myNav ul {
+	list-style: none;  
+}
+
+/* Styling for listed item */
+.myNav li {
+	float: left; 
+	justify-content: space-evenly;
+}
+
+/* When hovering over a link change colour */
+.myNav ul li:hover{
+	height: 8vh;
+	background-color: green;
+}
