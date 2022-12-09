@@ -108,30 +108,29 @@ class BookmarksDAO:
         return item
        '''
 
-
+    # Create the users table
     def createUserTable(self):
-        pass
-    '''
-        cursor = self.getcursor()
-        sql="CREATE TABLE User (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username NOT NULL VARCHAR(50), email NOT VARCHAR(120), password VARCHAR(15))"
-        cursor.execute(sql)
 
+        cursor = self.getcursor()
+        sql="CREATE TABLE user (user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY, username VARCHAR(50) NOT NULL, email VARCHAR(150) NOT NULL, password VARCHAR(15) NOT NULL)"
+        cursor.execute(sql)
+        print('created users')
         self.connection.commit()
         self.closeAll()
-'''
 
 
+    # Create bookmarks table
     def createBookmarksTable(self):
-        pass
-        '''
         cursor = self.getcursor()
-        sql="CREATE TABLE Bookmark (bookmark_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url NOT NULL VARCHAR(500), description VARCHAR(200), category VARCHAR(30), user_id INT, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES User(user_id))"
+        sql="CREATE TABLE bookmarks (bookmark_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), user_id INT, created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES User(user_id))"
         cursor.execute(sql)
-
+        print('created bookmarks table')
         self.connection.commit()
         self.closeAll()
 
-        '''
+        
+
+
 
 
     # Function to create the database   
@@ -160,6 +159,10 @@ if __name__ == "__main__":
 
     #Creating database
     bookmarksDAO.createdatase()
-    #bookmarksDAO.createtable()
 
-    print("code is working :)")
+    # Create database tables
+    bookmarksDAO.createUserTable()
+    bookmarksDAO.createBookmarksTable()
+    
+
+    #print("code is working :)")
