@@ -1,0 +1,176 @@
+
+<html>
+    <head>
+        <title> Login</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+
+    </head>
+    <body>
+        <div>
+
+            <header>
+                
+                <div class="menu">
+                    <ul>
+                      <li><a class="active" href="index.html">Home</a></li>
+                      <li><a href="login.html">Login</a></li>
+                      
+                    </ul>
+                
+                </div>
+            </header>
+
+            <div id="right-box">
+                <div id="cont2" >
+                
+                    <div id = "login_form_div" style="display:block">
+                        <h2>Login</h2>
+                        <table id = "login_form">
+                            <tr>
+                                <td>Username:</td>
+                                <td><input type = "text" name = "uname"></td>
+                            </tr>
+                            <tr>
+                                <td>Password:</td>
+                                <td><input type = "password" name = "pswrd"></td>
+                            </tr>
+                                
+                            
+                                
+                            <tr>
+                                <td><button id = "login" onClick="doLogin()">Login</button></td>
+                                
+                                <td><button id = "register" onClick="switchRegister()">Register</button></td>
+                            </tr>
+                        
+        
+        
+                        </table>
+                    </div>
+
+                    <div id = "register_form_div" style="display:none">
+                        <h2>Register</h2>
+                        <table id = "register_form">
+                            <tr>
+                                <td>Username:</td>
+                                <td><input type = "text" name = "uname"></td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td><input type = "email" name = "email"></td>
+                            </tr>
+                            <tr>
+                                <td>Password:</td>
+                                <td><input type = "password" name = "pswrd"></td>
+                            </tr>
+                                
+                            
+                                
+                            <tr>                   
+                                <td><button id = "register" onClick="doRegister()">Register</button></td>
+                            </tr>
+                        
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            // Fade in #cont2
+            $(document).ready(function(){
+                        $("#cont2").fadeTo("slow",1);
+                    })
+
+            // 
+            function doRegister(){
+                data = get_register_form()
+
+                $.ajax({
+                    url:"http://127.0.0.1:5000/register",
+                    data: JSON.stringify(data),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result){
+                        window.alert("Registered!!!")
+                        document.getElementById("register_form_div").style = "display:none"
+                        document.getElementById("login_form_div").style = "display:block"; 
+                    },
+                    error: function(xhr, status, error){
+                        
+                        console.log("error "+ error + " code "+ status)
+                   }
+                })
+
+            }
+
+            function switchRegister() {
+                document.getElementById("login_form_div").style = "display:none";
+                document.getElementById("register_form_div").style = "display:block"
+            }
+
+
+            function doLogin() {
+                
+                data = get_login_form()
+                console.log(data)
+                
+
+                $.ajax({
+                    url:"http://127.0.0.1:5000/login",
+                    data: JSON.stringify(data),
+                    method:"POST",
+                    dataType:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result){
+                        
+                        if (result == 1){
+
+                            
+                            window.location.replace("main.html");
+                            
+                            
+                        } else {
+                            window.alert("Wrong username or password");
+                        }
+                    },
+                    error: function(xhr, status, error){
+                        
+                        console.log("error "+ error + " code "+ status)
+                   }
+                })
+            }
+
+
+            function get_login_form(){
+                var form = document.getElementById("login_form")
+                log_in = {}
+                log_in.username = form.querySelector('input[name="uname"]').value
+                log_in.password = form.querySelector('input[name="pswrd"]').value
+
+                return log_in
+            }
+
+            function get_register_form(){
+                var form = document.getElementById("register_form")
+                register_in = {}
+                register_in.username = form.querySelector('input[name="uname"]').value
+                register_in.email = form.querySelector('input[name="email"]').value
+                register_in.password = form.querySelector('input[name="pswrd"]').value
+
+                return register_in
+            }
+                
+        </script>
+
+    </body>
+</html>
