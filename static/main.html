@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <title> library</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+       
+
+    </head>
+    <body>
+
+        <header>
+                
+            <div class="menu">
+                <ul>
+                  <li><a class="active" href="index.html">Home</a></li>
+                  <li><a href="javascript:logOut()">Log Out</a></li>
+                  
+                  
+                  
+                </ul>
+            
+            </div>
+        </header>
+
+
+        <body>
+            <h1>bookmarks</h1>
+            <div> <button id="showCreateButton" onclick="showCreate()">Add New</button></div>
+            <div>
+                <table class="table" id="bookmarkTable">
+                    <tr>
+                        <th>id</th>
+                        <th>url</th>
+                        <th>description</th>
+                        <th>category</th>
+                        <th>created</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                </tr>
+                </table>
+            </div>
+            <div id='createUpdateForm' style="display: none">
+                    <h2><span id="createLabel">Create a</span> <span id="updateLabel">Update a</span> bookmark</h2>
+                    <input type="hidden" name="id"/>
+                    <table>
+                        <tr><td align="right">url:  <td><input type="text" name = "url"/></tr>
+                        <tr><td align="right">description: <td><input type="text" name = "description"/></tr>
+                        <tr><td align="right">category:  <td><input type="text" name = "category"/></tr>
+                    </table>
+                    <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
+                    <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+            </div>
+        <script>
+        function showCreate(){
+            document.getElementById('showCreateButton').style.display="none"
+            document.getElementById('bookmarkTable').style.display="none"
+            document.getElementById('createUpdateForm').style.display="block"
+            document.getElementById('createLabel').style.display="inline"
+            document.getElementById('updateLabel').style.display="none"
+            document.getElementById('doCreateButton').style.display="block"
+            document.getElementById('doUpdateButton').style.display="none"
+    
+        }
+        function showViewAll(){
+            document.getElementById('showCreateButton').style.display="block"
+            document.getElementById('bookmarkTable').style.display="block"
+            document.getElementById('createUpdateForm').style.display="none"
+        }
+        function showUpdate(buttonElement){
+            document.getElementById('showCreateButton').style.display="none"
+            document.getElementById('bookmarkTable').style.display="none"
+            document.getElementById('createUpdateForm').style.display="block"
+            document.getElementById('createLabel').style.display="none"
+            document.getElementById('updateLabel').style.display="inline"
+            document.getElementById('doCreateButton').style.display="none"
+            document.getElementById('doUpdateButton').style.display="block"
+            var rowElement = buttonElement.parentNode.parentNode
+          
+            var bookmark = getbookmarkFromRow(rowElement)
+            populateFormWithbookmark(bookmark)
+        }
+        function doCreate(){
+            var form = document.getElementById('createUpdateForm')
+            var bookmark = {}
+            bookmark.url = form.querySelector('input[name="url"]').value
+            bookmark.description = form.querySelector('input[name="description"]').value
+            bookmark.category = form.querySelector('input[name="category"]').value
+            console.log(JSON.stringify(bookmark))
+            createbookmarkAjax(bookmark)   
+        }
+        function doUpdate(){
+            var bookmark = getbookmarkFromForm();
+            var rowElement = document.getElementById(bookmark.id);
+            updatebookmarkAjax(bookmark);
+            setbookmarkInRow(rowElement,bookmark);
+            clearForm();
+            showViewAll();
+        }
+        function doDelete(r){
+            var tableElement = document.getElementById('bookmarkTable');
+            var rowElement = r.parentNode.parentNode;
+            var index = rowElement.rowIndex;
+            deletebookmarkAjax(rowElement.getAttribute("id"));
+            tableElement.deleteRow(index);
+        }
+        function addbookmarkToTable(bookmark){
+            var tableElement = document.getElementById('bookmarkTable')
+            var rowElement = tableElement.insertRow(-1)
+            rowElement.setAttribute('id',bookmark.id)
+            var cell1 = rowElement.insertCell(0);
+            cell1.innerHTML = bookmark.id
+            var cell2 = rowElement.insertCell(1);
+            cell2.innerHTML = bookmark.url
+            var cell3 = rowElement.insertCell(2);
+            cell3.innerHTML = bookmark.description
+            var cell4 = rowElement.insertCell(3);
+            cell4.innerHTML = bookmark.category
+            var cell5 = rowElement.insertCell(4);
+            cell5.innerHTML = bookmark.created
+            var cell6 = rowElement.insertCell(5);
+            cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+            var cell7 = rowElement.insertCell(6);
+            cell7.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+    
+        }
+    
+        function clearForm(){
+            var form = document.getElementById('createUpdateForm')
+            form.querySelector('input[name="url"]').value=''
+            form.querySelector('input[name="description"]').value=''
+            form.querySelector('input[name="category"]').value=''
+        }
+        function getbookmarkFromRow(rowElement){
+            var car ={}
+            bookmark.id  = rowElement.getAttribute('id')
+            bookmark.url = rowElement.cells[1].firstChild.textContent
+            bookmark.description = rowElement.cells[2].firstChild.textContent
+            bookmark.category = rowElement.cells[3].firstChild.textContent
+            return bookmark
+        }
+        function setbookmarkInRow(rowElement, bookmark){
+            rowElement.cells[0].firstChild.textContent = bookmark.id  
+            rowElement.cells[1].firstChild.textContent = bookmark.url 
+            rowElement.cells[2].firstChild.textContent = bookmark.description
+            rowElement.cells[3].firstChild.textContent = bookmark.category
+        }
+        function populateFormWithbookmark(bookmark){
+            var form = document.getElementById('createUpdateForm')
+            form.querySelector('input[name="id"]').disabled = true
+            form.querySelector('input[name="id"]').value = bookmark.id
+            form.querySelector('input[name="url"]').value = bookmark.url
+            form.querySelector('input[name="description"]').value = bookmark.description
+            form.querySelector('input[name="category"]').value = bookmark.category
+            return bookmark
+        }
+        function getbookmarkFromForm(){
+            var form = document.getElementById('createUpdateForm')
+            var bookmark = {}
+            bookmark.id = form.querySelector('input[name="id"]').value
+            bookmark.url = form.querySelector('input[name="url"]').value
+            bookmark.description = form.querySelector('input[name="description"]').value
+            bookmark.category = form.querySelector('input[name="category"]').value
+            console.log(JSON.stringify(bookmark))
+            return bookmark
+        }
+        function getAllAjax(){
+            $.ajax({
+                "url": "http://127.0.0.1:5000/bookmark",
+                "method":"GET",
+                "data":"",
+                "dataType": "JSON",
+                "success":function(result){
+                    //console.log(result);
+                    for (bookmark of result){
+                        addbookmarkToTable(bookmark);
+                    }
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg: "+error);
+                }
+            });
+        }
+        function createbookmarkAjax(bookmark){
+           
+            console.log(JSON.stringify(bookmark));
+            $.ajax({
+                "url": "http://127.0.0.1:5000/bookmark",
+                "method":"POST",
+                "data":JSON.stringify(bookmark),
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                    console.log("CreatebookmarkResult: " + result);
+                    bookmark.id = result.id
+                    addbookmarkToTable(bookmark)
+                    clearForm()
+                    showViewAll()
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg: "+error);
+                }
+            });
+
+            location.reload(true)
+
+
+        }
+        function updatebookmarkAjax(bookmark){
+            
+            console.log(JSON.stringify(bookmark));
+            $.ajax({
+                "url": "http://127.0.0.1:5000/bookmark/"+bookmark.id,
+                "method":"PUT",
+                "data":JSON.stringify(bookmark),
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                   // console.log(result);
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg: "+error);
+                }
+            });
+        }
+        function deletebookmarkAjax(id){   
+            //console.log(JSON.stringify('deleting '+id));
+            $.ajax({
+                "url": "http://127.0.0.1:5000/bookmark/"+ id,
+                "method":"DELETE",
+                "data":"",
+                "dataType": "JSON",
+                contentType: "application/json; charset=utf-8",
+                "success":function(result){
+                    //console.log(result);
+                },
+                "error":function(xhr,status,error){
+                    console.log("error: "+status+" msg: "+error);
+                }
+            });
+        }
+        getAllAjax();
+
+            
+        </script>
+    </body>
+</html>
