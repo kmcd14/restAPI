@@ -79,7 +79,7 @@ text-align: center;
    
     font-size: 1rem;                              /* Font size */
     color:#ffffff;                              /* Font colour */
-    background-color: rgb(163, 34, 218);                    /* Setting background colour of button */
+    background-color: rgb(107, 104, 109);                    /* Setting background colour of button */
    
     cursor: pointer;                              /* Mouse arrow turns to a pointer over the button */     
 }
@@ -89,10 +89,10 @@ text-align: center;
     padding: 2%;
     margin:.2em;
     height: 3vh;                                  /* Button height */
-    border:0.16em solid rgba(255,255,255,0);    /* Solid border */
+    border:0.16em solid rgba(109, 104, 104, 0);    /* Solid border */
     font-size: 1rem;                              /* Font size */
     color:#ffffff;                              /* Font colour */
-    background-color: rgb(163, 34, 218);                    /* Setting background colour of button */
+    background-color: rgb(107, 104, 109);                    /* Setting background colour of button */
     cursor: pointer;                              /* Mouse arrow turns to a pointer over the button */ 
 }
 
