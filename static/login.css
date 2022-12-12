@@ -1,0 +1,99 @@
+/* CSS styling for navigation bar */
+/* The navigation bar is found within the <header></header> tags on each page */
+
+body {
+    
+    font-family: Arial, Helvetica, sans-serif;
+    background: url(images/background.jpg) no-repeat;
+    background-size: cover;
+}
+#main {   
+     padding-top: 15%;
+    }
+#container {
+       
+      padding: 2% 0;                                  /* Adding padding */
+      display: grid;                                  /* Selecting a grid layout order elements */
+      width: 30vw;                                    /* Setting width */
+      margin-left: 35vw;                              /* Setting margin */
+      justify-items: center;                          /* Justifying items on the inline axis*/
+      background-color: rgba(44, 38, 38, 0.879);    /* Setting background colour of main-holder */
+      box-shadow: 0px 0px 5px 2px black;            /* Adding drop shadow to main-holder*/
+      color: rgb(241, 241, 241);                    /* Setting font colour */
+}
+/* Add padding to containers */
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 140%;
+  padding: 10px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #ffffff;
+
+}
+input[type=email], input[type=email] {
+  width: 140%;
+  padding: 10px;
+ 
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #ffffff;
+  
+}
+
+/* Styling and positioning for the login-form */
+#registerForm {
+  display: grid;
+
+ 
+}
+
+
+h2 {
+font-size: 3rem;
+font-weight: 100;
+text-align: center;
+}
+
+
+/* Styling and positioning for the login-form */
+#loginForm {
+  display: grid;
+  justify-items: center;  
+  
+}
+#registerForm {
+   display: grid;
+   justify-items: center;  
+   padding-right: 30%;
+ }
+/* Set a style for the submit button */
+#login {
+   
+    padding: 2%;
+    margin:.2em;
+    height: 3vh;                                  /* Button height */
+    border:0.16em solid rgba(255,255,255,0);    /* Solid border */
+   
+    font-size: 1rem;                              /* Font size */
+    color:#ffffff;                              /* Font colour */
+    background-color: rgb(163, 34, 218);                    /* Setting background colour of button */
+   
+    cursor: pointer;                              /* Mouse arrow turns to a pointer over the button */     
+}
+
+#register{
+   
+    padding: 2%;
+    margin:.2em;
+    height: 3vh;                                  /* Button height */
+    border:0.16em solid rgba(255,255,255,0);    /* Solid border */
+    font-size: 1rem;                              /* Font size */
+    color:#ffffff;                              /* Font colour */
+    background-color: rgb(163, 34, 218);                    /* Setting background colour of button */
+    cursor: pointer;                              /* Mouse arrow turns to a pointer over the button */ 
+}
+
+                                                                                                           
