@@ -3,7 +3,35 @@
 <br>
 This repository contains all files, scripts and documentation for final the Data Representation module. 
 
+<br>
+
 ---
+<br>
+<h2>Objectives</h2>
+
+- Create a Web application in Flask that has a REST API.
+- The application should link to one or more database tables.
+- Create accompanying web interface, using AJAX calls, to perform these CRUD operations
+
+
+<br>
+
+---
+
+<br>
+
+<h2>Repository Contents</h2>
+
+- ```static``` - Folder containing web html pages and images.
+- ````application.py```` - Flask server.
+- ````createDB.py```` - create the database and tables.
+- ```bookmarksDAO.py``` - a data access object (DAO) to interact with the created database.
+- ```project_brief.pdf``` - The project brief.
+
+
+---
+
+<br>
 <h2><b><u><p id='Script'> How To Get The Repository on Your Machine</b></u></p></h2>
 <br>
 <ol>
@@ -68,3 +96,8 @@ The restAPI is hosted at the following link:
 Pythonanywhere link:
 
  http://XXXXXXXXXXXXXXXXX
+
+ ---
+
+ <h2>Database tables</h2>
+ 

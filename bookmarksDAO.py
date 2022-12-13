@@ -1,176 +1,225 @@
-import mysql.connector
+import mysql.connector 
 import dbconfig as cfg
-#from usersDAO import users 
 
-class BookmarksDAO:
+
+class BookmarkDAO:
     connection=""
     cursor =''
     host=       ''
     user=       ''
     password=   ''
     database=   ''
-    
+        
     def __init__(self):
         self.host=       cfg.mysql['host']
         self.user=       cfg.mysql['user']
         self.password=   cfg.mysql['password']
         self.database=   cfg.mysql['database']
 
+
     def getcursor(self): 
         self.connection = mysql.connector.connect(
-            host=       self.host,
-            user=       self.user,
-            password=   self.password,
-            database=   self.database,
+        host=       self.host,
+        user=       self.user,
+        password=   self.password,
+        database=   self.database,
         )
+
         self.cursor = self.connection.cursor()
         return self.cursor
 
     def closeAll(self):
         self.connection.close()
         self.cursor.close()
-         
 
-    # Create a user     
-    def createBookmark(self, values):
+
+ 
+
+
+ 
+
+
+
+
+    # method to register bookmark
+    # param : JSON : info taken from HTML form - url, username and password
+    def register(self, register_data):
+        print(register_data)     
+        cursor = self.getcursor()
+        values = [
+            register_data["username"],
+            register_data["email"],
+            register_data["password"],
+        ]
+
         
-       cursor = self.getcursor()
-       sql="insert into bookmarks (url, description, category) values (%s,%s,%s)"
+        sql = "INSERT INTO users (username, email, password) VALUES (%s, %s,%s)"
+        cursor.execute(sql,values)
+        self.connection.commit()
+        print ("JOB DONE")
+        self.closeAll()
+        return 1
+        
+        
+            
+    # method to login 
+    # param : JSON : login data (username, password)
+    def login(self, login_data):
+        cursor = self.getcursor()
+        values = [login_data["username"]]       
+        sql = "SELECT username, password FROM users WHERE username = %s"
+        cursor.execute(sql,values)
+        data = cursor.fetchone()
+        print(data)
+          
+        if data[0] == "" and data[1]=="":
+            print("Not Found")
+            return 0
+        else:
+            if login_data["password"] == data[1]:
+                print("logged in")
+                return 1
+            else:
+                print("Wrong Password")
+
+                return 0
+        #self.closeAll()            
+        
+
+    # Return user for given userID
+    def findUserByID(self, userId):
+       #db = self.getConnection()
+       cursor = self.getConnection()
+       sql = 'select * from users where user_id = %s'
+       values = [userId]
        cursor.execute(sql, values)
-
-       self.connection.commit()
-       newid = cursor.lastrowid
-       print('bookmark created')
-       self.closeAll()
-       return newid
-    
+       result = cursor.fetchone()
+       user = self.convertUserToDict(result)
+       cursor.close()
+       return user
 
 
-    # Get all bookmarks in the bookmarks table
-    def getAllBookmarks(self):
+
+
+
+
+
+    # method to create bookmark
+    # param : JSON : bookmark information (name, description, category)
+    def create_bookmark(self, bookmark):
+
         cursor = self.getcursor()
-        sql = "SELECT * FROM bookmarks"
-        cursor.execute(sql)
-        result = cursor.fetchall()
+        sql = "INSERT INTO bookmarks( bookmarks.url, description, category) VALUES ( %s,%s,%s)"
 
-        allBookmarks = []
+        values = [
+            bookmark["url"],
+            bookmark["description"],
+            bookmark["category"],
+           
+            ]  
 
-        for bookmarks in result:
-            resultDict = self.convertToDict(bookmarks)
-            allBookmarks.append(resultDict)     
-
-        self.closeAll()
-        return allBookmarks
-
-
-    # Find a bookmark by id
-    def getOneBookmark(self, bookmark_id):
-        cursor = self.getcursor()
-        sql = "SELECT * FROM bookmarks WHERE bookmark_id = %s"
-        values = (bookmark_id, )
-        cursor.execute(sql, values)
-        result = cursor.fetchone()
-        self.closeAll()
-        return result
-
-
-
-    # Update bookmark
-    def updateBookmark(self, values):
-        cursor = self.getcursor()
-        sql = "UPDATE bookmarks SET url = %s, description = %s, category = %s WHERE bookmark_id = %s"
-        cursor.execute(sql, values)
-        
-        self.connection.commit()
-        print("bookmark updated")
-        self.closeAll()
-        #return resultDict
-
-
-
-    # Delete bookmark for given bookmark_id, returns empty dictionary/JSON
-    def deleteBookmark(self, bookmark_id):
-        cursor = self.getcursor()
-        sql = 'DELETE FROM bookmarks WHERE bookmark_id = %s'
-        values = [bookmark_id]
         cursor.execute(sql, values)
         self.connection.commit()
-        print("bookmark deleted")
         self.closeAll()
-        return {}
-
-
-
-
-
-    # Convert returned sql query into a dict
-    def convertToDict(self, result):
-        colnames=['bookmark_id','url', 'description', 'category', 'created', 'user_id']
-        allBookmarks = {}
+        return cursor.lastrowid 
         
-        if result:
-            for i, colName in enumerate(colnames):
-                value = result[i]
-                allBookmarks[colName] = value
-        
-        return allBookmarks
-    
 
-
-    
-    # Find bookmark by id 
-    def findUser(self, id):
+    # method to display all bookmarks in HTML table
+    def get_all(self):
         cursor = self.getcursor()
                 
-        sql = "SELECT * FROM bookmarks WHERE id = %s"
-        values = [id]
-        cursor.execute(sql,values)
-        result = cursor.fetchall()
-                    
-        return self.convertToDict(result)
-
-
-
-
-    # Create the bookmarks table
-    def createBookmarksTable(self):
-        cursor = self.getcursor()
-        sql= "CREATE TABLE bookmarks (bookmark_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, user_id INT, UNIQUE (url), FOREIGN KEY(user_id) REFERENCES users(user_id))"
+        sql = "SELECT * FROM bookmarks"
 
         cursor.execute(sql)
-        print('bookmarks table created')
-        self.connection.commit()
+
+        result = cursor.fetchall()
+        return_arr = []
+        
+        for r in result:
+            result_as_dict = self.convert_to_dict(r)
+            return_arr.append(result_as_dict)     
         self.closeAll()
+        return return_arr
+       
+
+    # method to convert to dictionary
+    def convert_to_dict(self,result):
+        colnames = ["id","url","description","category", "created", "user_id"]
+        bookmark= {}
+
+        if result:
+            for c, col_name in enumerate(colnames):
+                value = result[c]
+                bookmark[col_name] = value
+        return bookmark
+
+    # method to find bookmark by its id 
+    def find_bookmark_by_id(self,id):
+        cursor = self.getcursor()
+        
+        sql = "SELECT * FROM bookmarks WHERE id = %s"
+        values = (id,)
+        cursor.execute(sql,values)
+        result = cursor.fetchone()
+        #self.closeAll()
+        return self.convert_to_dict(result)
+        
         
 
+    # method to update bookmark data in MySQL table 
+    def update_bookmark(self, bookmark):
+        cursor = self.getcursor()
+            
+        sql = "UPDATE bookmarks SET url = %s, description = %s, category = %s WHERE id = %s"
+
+        #values = ("www.pigsandcats.com", "google images", "research", "4")
+        values = [bookmark[0],bookmark[1],bookmark[2], bookmark[3]]  
+
+
+        cursor.execute(sql, values)
+        self.connection.commit()
+        self.closeAll()
+        #return bookmark
+
+
+    def add(self, id, bookmark):
+        cursor = self.getcursor()
+        sql = "INSERT INTO bookmarks(bookmarks.url, description, category, username) VALUES ( %s,%s,%s, %s)"
+        values = [
+            bookmark["url"],
+            bookmark["description"],
+            bookmark["category"],
+            bookmark["user_id"]
+            ]  
+        cursor.execute(sql, values)
+        self.connection.commit()
+        self.closeAll()
+        return cursor.lastrowid 
 
 
 
+        
+    
+    # method to remove bookmark from database
+    def delete_bookmark (self, id):
 
-bookmarksDAO = BookmarksDAO()
+        cursor = self.getcursor()
+        sql = "DELETE FROM bookmarks WHERE id = %s"
+        values = (id,)
+        cursor.execute(sql,values)
+        self.connection.commit()
+        self.closeAll()
+        return {}
+        
+        
+bookmarkDAO = BookmarkDAO()
 
 if __name__ == "__main__":
+    print('ughhhhhhhhhhhhhh')
 
-    # Create bookmarks table
-    #bookmarksDAO.createBookmarksTable()
+ # Update user
+    data = ("catpig", "AAAAAAAAA", "research", 41)
+    bookmarkDAO.update_bookmark(data)
 
-    # Create a bookmark
-    #data = ("www.goggle.com", "google homepage", "research")
-    #bookmarksDAO.createBookmark(data)
-    
-    # Get one bookmark
-    #oneBookmark = bookmarksDAO.getOneBookmark(1)
-    #print(oneBookmark)
-
-    # Get all bookmarks
-    #bookmarkCount = bookmarksDAO.getAllBookmarks()
-    #print(bookmarkCount)
-
-    # Update user
-    #data = ("www.google.com/images", "google images", "research", 1)
-    #bookmarksDAO.updateBookmark(data)
-
-    # Delete user
-    #bookmarksDAO.deleteUser(1)
-
-    print("code is working")
+    a = bookmarkDAO.find_bookmark_by_id(41)
+    print(a)
