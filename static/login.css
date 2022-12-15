@@ -51,14 +51,9 @@ input[type=email], input[type=email] {
 
 #registerForm {
   display: grid;
-}
-
-
-
-h2 {
-  font-size: 3rem;
-  font-weight: 100;
-  text-align: center;
+  display: grid;
+  justify-items: center;
+  padding-right: 30%;
 }
 
 
@@ -70,10 +65,10 @@ h2 {
 
 
 
-#registerForm {
-  display: grid;
-  justify-items: center;  
-  padding-right: 30%;
+h2 {
+  font-size: 3rem;
+  font-weight: 100;
+  text-align: center;
 }
 
 

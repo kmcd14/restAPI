@@ -3,7 +3,10 @@
     <head>
 
         <title>Login</title>
-
+        <meta charset="UTF-8">
+        <meta name="description" content="Data Rep project">
+        <meta name="author" content="Katie Mc Donald">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link href="login.css" rel="stylesheet">
         <link rel="stylesheet" href="login.css">
@@ -18,10 +21,13 @@
             <span class="navbar-toggler-icon"></span>
         </nav>
     </header>
-         <!-- Main container -->
+    
+    <!-- Main container -->
     <div id="main">
         <div id="container">
-            <div id="formHolder" >    
+            <div id="formHolder" >  
+                
+                <!-- Login form -->
                 <div id = "loginFormHolder" style="display:block">
                     <h2>Login</h2>
                     <table id = "loginForm">
@@ -32,11 +38,13 @@
                             <td><input type = "password" name = "password" placeholder="Password" required></td>
                         </tr>
                         <tr>
-                            <td><button id = "login" onClick="doLogin()">Login</button></td>
-                            <td><button class="btn btn-outline-light" id = "register" onClick="switchRegister()">Register</button></td>
+                            <td><button id = "login" onClick="userLogin()">Login</button></td>
+                            <td><button class="btn btn-outline-light" id = "register" onClick="showRegister()">Register</button></td>
                         </tr>
                     </table>
                 </div>
+
+                <!-- Registration form -->
                 <div id = "registerFormHolder" style="display:none">
                     <h2>Register</h2>
                     <table id = "registerForm">
@@ -50,47 +58,72 @@
                             <td><input type = "password" name = "password" placeholder="Password" required></td>
                         </tr>
                         <tr>                   
-                            <td><button id = "register" onClick="doRegister()">Register</button></td>
+                            <td><button id = "register" onClick="registerUser()">Register</button></td>
                         </tr>
                     </table>
+
                 </div>
             </div>
         </div>
     </div>
        
     <script>
-                                     
-        function doRegister(){
+        
+        // Switch the visibility to the register form
+        function showRegister() {
+            document.getElementById("loginFormHolder").style = "display:none";
+            document.getElementById("registerFormHolder").style = "display:block"
+        }
+
+        
+         // Get user details from the registeration form 
+         function getRegistration() {
+             var form = document.getElementById("registerForm")
+             registeredInfo = {}
+             registeredInfo.username = form.querySelector('input[name="username"]').value
+             registeredInfo.email = form.querySelector('input[name="email"]').value
+             registeredInfo.password = form.querySelector('input[name="password"]').value
+             return registeredInfo
+         }
+
+
+
+        // Register a user                            
+        function registerUser(){
             data = getRegistration()
             $.ajax({
+
                 url:"http://127.0.0.1:5000/register",
                 data: JSON.stringify(data),
                 method:"POST",
                 dataType:"JSON",
                 contentType: "application/json; charset=utf-8",
-                success: function(result){
-                    //window.alert("Registered!!!")
+                success: function(result) {
+                    window.alert("You have been registered")     
                     document.getElementById("registerFormHolder").style = "display:none"
                     document.getElementById("loginFormHolder").style = "display:block"; 
                 },
-                error: function(xhr, status, error){
-                    
-                    console.log("error "+ error + " code "+ status)
+
+                error: function(xhr, status, error){ 
+                    console.log("error " + error + " code "+ status)
                }
             })
         }
 
 
 
-        function switchRegister() {
-            document.getElementById("loginFormHolder").style = "display:none";
-            document.getElementById("registerFormHolder").style = "display:block"
+        // Get user details from the login form
+        function getLogin() {
+            var form = document.getElementById("loginForm")
+            loginInfo = {}
+            loginInfo.username = form.querySelector('input[name="username"]').value
+            loginInfo.password = form.querySelector('input[name="password"]').value
+            return loginInfo
         }
 
 
-
-        function doLogin() {
-            
+        // Login a user
+        function userLogin() {
             data = getLogin()
             console.log(data)
             
@@ -100,45 +133,18 @@
                 method:"POST",
                 dataType:"JSON",
                 contentType: "application/json; charset=utf-8",
-                success: function(result){
-                    
-                    if (result == 1){
-                        
-                        window.location.replace("main.html");
-                        
-                        
-                    } else {
-                        alert("Incorrect username/password");
-                    }
+                success: function(result) {  
+
+                    if (result == 1) {
+                        window.location.replace("main.html");    // Redirect to to main.html if successful 
+                    } 
                 },
-                error: function(xhr, status, error){
-                    
+                error: function(xhr, status, error){   
+                    window.alert("Invaild username and/or password");
                     console.log("error "+ error + " code "+ status)
                }
             })
         }
 
-
-
-        function getLogin(){
-            var form = document.getElementById("loginForm")
-            loginInfo = {}
-            loginInfo.username = form.querySelector('input[name="username"]').value
-            loginInfo.password = form.querySelector('input[name="password"]').value
-            return loginInfo
-        }
-
-
-
-        function getRegistration(){
-            var form = document.getElementById("registerForm")
-            registeredInfo = {}
-            registeredInfo.username = form.querySelector('input[name="username"]').value
-            registeredInfo.email = form.querySelector('input[name="email"]').value
-            registeredInfo.password = form.querySelector('input[name="password"]').value
-            return registeredInfo
-        }
-             
-        
     </script> 
 </html>
