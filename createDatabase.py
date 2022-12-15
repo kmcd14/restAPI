@@ -1,6 +1,6 @@
 # Script to create the database and tables
 
-
+# Import libaries and config file
 import mysql.connector
 import dbconfig as cfg
 
@@ -14,12 +14,14 @@ class DataRepDAO:
     password = ""
     database = ""
     
+
     # Details from my config file
     def __init__(self):
         self.host=       cfg.mysql['host']
         self.user=       cfg.mysql['user']
         self.password=   cfg.mysql['password']
         self.database=   cfg.mysql['database']
+
 
     # Connecting to database
     def getcursor(self): 
@@ -31,6 +33,7 @@ class DataRepDAO:
         )
         self.cursor = self.connection.cursor()
         return self.cursor
+
 
     # Close connection
     def closeAll(self):
@@ -61,7 +64,7 @@ class DataRepDAO:
         sql= "CREATE TABLE users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) NOT NULL, email VARCHAR(150) NOT NULL, password VARCHAR(15) NOT NULL, UNIQUE (username, email))"
         cursor.execute(sql)
         self.connection.commit()
-        print('bookmarks table created')
+        print('users table created')
         self.closeAll()
 
 
@@ -69,7 +72,7 @@ class DataRepDAO:
     # Create the bookmarks table
     def createBookmarksTable(self):
         cursor = self.getcursor()
-        sql= "CREATE TABLE bookmarks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, user_id INT, UNIQUE (url), FOREIGN KEY(user_id) REFERENCES users(user_id))"
+        sql= "CREATE TABLE bookmarks (id INT NOT NULL PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE (url), FOREIGN KEY(id) REFERENCES users(user_id))"
         cursor.execute(sql)
         self.connection.commit()
         print('bookmarks table created')
@@ -83,11 +86,9 @@ if __name__ == "__main__":
 
     #Creating database
     datarepDAO.createdatase()
-    #print("database created")
 
     # Create database tables
     datarepDAO.createUsersTable()
     datarepDAO.createBookmarksTable()
-    #print("tables created")
 
     #print("code is working :)")

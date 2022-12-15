@@ -1,5 +1,6 @@
 import mysql.connector 
 import dbconfig as cfg
+import re
 
 
 class BookmarkDAO:
@@ -32,27 +33,17 @@ class BookmarkDAO:
         self.connection.close()
         self.cursor.close()
 
-
- 
-
-
- 
-
-
-
-
+  
     # method to register bookmark
-    # param : JSON : info taken from HTML form - url, username and password
-    def register(self, register_data):
-        print(register_data)     
+    def register(self, account):
+        print(account)     
         cursor = self.getcursor()
         values = [
-            register_data["username"],
-            register_data["email"],
-            register_data["password"],
+            account["username"],
+            account["email"],
+            account["password"],
         ]
 
-        
         sql = "INSERT INTO users (username, email, password) VALUES (%s, %s,%s)"
         cursor.execute(sql,values)
         self.connection.commit()
@@ -64,24 +55,24 @@ class BookmarkDAO:
             
     # method to login 
     # param : JSON : login data (username, password)
-    def login(self, login_data):
+    def login(self, account):
         cursor = self.getcursor()
-        values = [login_data["username"]]       
+        values = [account["username"]]       
         sql = "SELECT username, password FROM users WHERE username = %s"
         cursor.execute(sql,values)
         data = cursor.fetchone()
         print(data)
-          
+        
+        # If no username or password
         if data[0] == "" and data[1]=="":
             print("Not Found")
             return 0
-        else:
-            if login_data["password"] == data[1]:
+        else: # Checking the password matches the username
+            if account["password"] == data[1]:
                 print("logged in")
                 return 1
             else:
-                print("Wrong Password")
-
+                print("Password is incorrect")
                 return 0
         #self.closeAll()            
         

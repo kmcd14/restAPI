@@ -1,8 +1,9 @@
 ## Import libaries, database config file and DAO from seprate files
 from flask import Flask, jsonify, abort, request, session
-from flask_session import Session   
+#from flask_session import Session   
 from bookmarksDAO import bookmarkDAO
 import dbconfig as cfg
+import re
 
    
 
@@ -13,7 +14,7 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 app.secret_key = 'hello'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+#Session(app)
 
 
 ############################################################################
@@ -32,12 +33,12 @@ def index():
 def login():
 
     if request.method == "POST":
-        login_data = {
+        account = {
             "username":request.json["username"],
             "password":request.json["password"]       
         }
 
-    return jsonify(bookmarkDAO.login(login_data))
+    return jsonify(bookmarkDAO.login(account))
 
 
 
@@ -52,14 +53,24 @@ def logout():
 # Register a new user
 @app.route('/register', methods = ["POST"])
 def register():
-    
-    register_data = {
+
+    account = {
         "username":request.json["username"],
         "email":request.json["email"],
         "password":request.json["password"]
     }
 
-    return jsonify(bookmarkDAO.register(register_data))
+    if account:
+        return jsonify({"message":"Account already exists"})
+
+    elif not re.match(r'[^@]+@[^@]+\.[^@]+', account[1]):
+        return jsonify({"message": "Invalid email address"})
+
+    elif not account[0] or not account[2] or not account[1]:
+        return jsonify({"message":"invaild entry"})
+        
+    else:
+        return jsonify(bookmarkDAO.register(account))
     
 
 
