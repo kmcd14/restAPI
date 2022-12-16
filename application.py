@@ -10,11 +10,6 @@ import re
 # Creating the Flask
 app = Flask(__name__, static_url_path='', static_folder='static')
 
-# secret_key for session
-app.secret_key = 'hello'
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-#Session(app)
 
 
 ############################################################################
@@ -75,14 +70,15 @@ def register():
 
 
 # Get all bookmarks 
+# curl "http://127.0.0.1:5000/booksmark"
 @app.route("/bookmark")
 def getAll():
-    #user_id = bookmarkDAO.findUserByID(id=user_id).first()
     return jsonify(bookmarkDAO.get_all())
 
 
 
 # Find bookmark by id 
+# curl "http://127.0.0.1:5000/bookmark/1"
 @app.route("/bookmark/<int:id>")
 def findById(id):
     current_bookmark = bookmarkDAO.find_bookmark_by_id(id)
@@ -92,6 +88,7 @@ def findById(id):
 
 
 # Create a bookmark
+# curl -i -H "Content-Type:application/json" -X POST -d "{\"url\":\"www.google.com\",\"description":\"google homepage\",\"category\":research}" http://127.0.0.1:5000/bookmark
 @app.route("/bookmark", methods = ["POST"])
 def create():
 
@@ -102,14 +99,14 @@ def create():
         "url":request.json["url"],
         "description":request.json["description"],
         "category":request.json["category"]
-        #"user_id": request.json("username")
-
     }
+
     return jsonify(bookmarkDAO.create_bookmark(bookmark))
 
 
 
 # Update bookmark
+# curl -i -H "Content-Type:application/json" -X PUT -d "{\"url\":\"www.google.com/images\",\"description\":\"updated from homepage to google images\",\"category\":images}" http://127.0.0.1:5000/bookmark/1
 @app.route("/bookmark/<int:id>", methods = ["PUT"])
 def update(id):
     foundBook = bookmarkDAO.find_bookmark_by_id(id)
@@ -135,6 +132,7 @@ def update(id):
 
 
 # Delete a bookmark
+# curl -X DELETE http://127.0.0.1:5000/bookmark/1
 @app.route("/bookmark/<int:id>", methods = ["DELETE"])
 def delete(id):
 

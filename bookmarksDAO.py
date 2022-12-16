@@ -1,15 +1,18 @@
+# Script to create the data access object and interact with the database
+
+# Import libaries and config file
 import mysql.connector 
 import dbconfig as cfg
-import re
+
 
 
 class BookmarkDAO:
-    connection=""
-    cursor =''
-    host=       ''
-    user=       ''
-    password=   ''
-    database=   ''
+    connection=''
+    cursor=''
+    host=''
+    user=''
+    password=''
+    database=''
         
     def __init__(self):
         self.host=       cfg.mysql['host']
@@ -17,7 +20,7 @@ class BookmarkDAO:
         self.password=   cfg.mysql['password']
         self.database=   cfg.mysql['database']
 
-
+    # Function to connect to the database
     def getcursor(self): 
         self.connection = mysql.connector.connect(
         host=       self.host,
@@ -29,12 +32,13 @@ class BookmarkDAO:
         self.cursor = self.connection.cursor()
         return self.cursor
 
+    # Function to close connection
     def closeAll(self):
         self.connection.close()
         self.cursor.close()
 
   
-    # method to register bookmark
+    # Function to register a user
     def register(self, account):
         print(account)     
         cursor = self.getcursor()
@@ -47,14 +51,14 @@ class BookmarkDAO:
         sql = "INSERT INTO users (username, email, password) VALUES (%s, %s,%s)"
         cursor.execute(sql,values)
         self.connection.commit()
-        print ("JOB DONE")
+        print ("registered")
         self.closeAll()
         return 1
         
         
             
-    # method to login 
-    # param : JSON : login data (username, password)
+   
+    # Function to log a user in
     def login(self, account):
         cursor = self.getcursor()
         values = [account["username"]]       
@@ -77,10 +81,9 @@ class BookmarkDAO:
         #self.closeAll()            
         
 
-    # Return user for given userID
+    # Function to return user for given id
     def findUserByID(self, userId):
-       #db = self.getConnection()
-       cursor = self.getConnection()
+       cursor = self.getcursor()
        sql = 'select * from users where user_id = %s'
        values = [userId]
        cursor.execute(sql, values)
@@ -91,14 +94,8 @@ class BookmarkDAO:
 
 
 
-
-
-
-
-    # method to create bookmark
-    # param : JSON : bookmark information (name, description, category)
+    # Function to create a bookmark
     def create_bookmark(self, bookmark):
-
         cursor = self.getcursor()
         sql = "INSERT INTO bookmarks( bookmarks.url, description, category) VALUES ( %s,%s,%s)"
 
@@ -106,7 +103,6 @@ class BookmarkDAO:
             bookmark["url"],
             bookmark["description"],
             bookmark["category"],
-           
             ]  
 
         cursor.execute(sql, values)
@@ -115,14 +111,11 @@ class BookmarkDAO:
         return cursor.lastrowid 
         
 
-    # method to display all bookmarks in HTML table
+    # Function to get all bookmarks
     def get_all(self):
-        cursor = self.getcursor()
-                
+        cursor = self.getcursor()     
         sql = "SELECT * FROM bookmarks"
-
         cursor.execute(sql)
-
         result = cursor.fetchall()
         return_arr = []
         
@@ -133,9 +126,9 @@ class BookmarkDAO:
         return return_arr
        
 
-    # method to convert to dictionary
+    # Function to convert response to a dict
     def convert_to_dict(self,result):
-        colnames = ["id","url","description","category", "created", "user_id"]
+        colnames = ["id","url","description","category", "created"]
         bookmark= {}
 
         if result:
@@ -144,7 +137,9 @@ class BookmarkDAO:
                 bookmark[col_name] = value
         return bookmark
 
-    # method to find bookmark by its id 
+
+
+    # Function to get a bookmark by id
     def find_bookmark_by_id(self,id):
         cursor = self.getcursor()
         
@@ -155,17 +150,28 @@ class BookmarkDAO:
         #self.closeAll()
         return self.convert_to_dict(result)
         
-        
 
-    # method to update bookmark data in MySQL table 
+    # Function to get bookmarks by category
+    def getCategory(self, category):
+      cursor = self.getcursor()
+      sql = "SELECT * FROM bookmarks WHERE category = %s"
+      values = (category, )
+      cursor.execute(sql, values)
+      result = cursor.fetchall()
+      allBookmarks = []
+      for bookmarks in result:
+          resultDict = self.convertToDict(bookmarks)
+          allBookmarks.append(resultDict)     
+      self.closeAll()
+      return allBookmarks
+
+
+    # Function to update bookmark
     def update_bookmark(self, bookmark):
-        cursor = self.getcursor()
-            
+        cursor = self.getcursor() 
         sql = "UPDATE bookmarks SET url = %s, description = %s, category = %s WHERE id = %s"
-
-        #values = ("www.pigsandcats.com", "google images", "research", "4")
+        #values = ("www.google.com/images", "google images", "research", "4")
         values = [bookmark[0],bookmark[1],bookmark[2], bookmark[3]]  
-
 
         cursor.execute(sql, values)
         self.connection.commit()
@@ -173,14 +179,14 @@ class BookmarkDAO:
         #return bookmark
 
 
-    def add(self, id, bookmark):
+    # Function to add a bookmark
+    def add(self, bookmark):
         cursor = self.getcursor()
-        sql = "INSERT INTO bookmarks(bookmarks.url, description, category, username) VALUES ( %s,%s,%s, %s)"
+        sql = "INSERT INTO bookmarks(url, description, category, username) VALUES ( %s,%s,%s, %s)"
         values = [
             bookmark["url"],
             bookmark["description"],
             bookmark["category"],
-            bookmark["user_id"]
             ]  
         cursor.execute(sql, values)
         self.connection.commit()
@@ -188,12 +194,9 @@ class BookmarkDAO:
         return cursor.lastrowid 
 
 
-
-        
     
-    # method to remove bookmark from database
+    # Function to delete a bookmark
     def delete_bookmark (self, id):
-
         cursor = self.getcursor()
         sql = "DELETE FROM bookmarks WHERE id = %s"
         values = (id,)
@@ -201,16 +204,35 @@ class BookmarkDAO:
         self.connection.commit()
         self.closeAll()
         return {}
-        
-        
+
+
+
+# Data Access Object   
 bookmarkDAO = BookmarkDAO()
+
 
 if __name__ == "__main__":
     print('ughhhhhhhhhhhhhh')
 
- # Update user
-    data = ("catpig", "AAAAAAAAA", "research", 41)
-    bookmarkDAO.update_bookmark(data)
+    # Update user
+    #data = ("catpig", "AAAAAAAAA", "research", 41)
+    #bookmarkDAO.update_bookmark(data)
 
-    a = bookmarkDAO.find_bookmark_by_id(41)
-    print(a)
+    #a = bookmarkDAO.find_bookmark_by_id(41)
+    #print(a)
+
+    # Create a bookmark
+    #data = ("www.goggle.com", "google homepage", "research")
+    #bookmarksDAO.createBookmark(data)
+
+    # Get one bookmark
+    #oneBookmark = bookmarksDAO.getOneBookmark(1)
+    #print(oneBookmark)
+    # Get all bookmarks
+    #bookmarkCount = bookmarksDAO.getAllBookmarks()
+    #print(bookmarkCount)
+    # Update user
+    #data = ("www.google.com/images", "google images", "research", 1)
+    #bookmarksDAO.updateBookmark(data)
+    # Delete user
+    #bookmarksDAO.deleteUser(1)
