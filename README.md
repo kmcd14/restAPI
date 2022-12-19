@@ -101,3 +101,27 @@ Pythonanywhere link:
 
  <h2>Database tables</h2>
  
+
+ ---
+<h2>References</h2>
+
+1.	Beatty A. Data Representation [Internet]. 2022. Available from: https://vlegalwaymayo.atu.ie/course/view.php?id=6209
+ 	 
+2.	How do I specify unique constraint for multiple columns in MySQL? [Internet]. Stack Overflow. [cited 2022 Dec 18]. Available from: https://stackoverflow.com/questions/635937/how-do-i-specify-unique-constraint-for-multiple-columns-in-mysql
+ 	 
+3.	Pixabay.com. [cited 2022 Dec 18]. Available from: https://pixabay.com/photos/books-bookstore-book-reading-1204029/
+ 	 
+4.	Venkatesan N. Create and deploy a simple web application with flask and heroku [Internet]. Towards Data Science. 2021 [cited 2022 Dec 18]. Available from: https://towardsdatascience.com/create-and-deploy-a-simple-web-application-with-flask-and-heroku-103d867298eb
+ 	 
+5.	Python AttributeError: “str” object has no attribute “decode” [Internet]. Stack Overflow. [cited 2022 Dec 18]. Available from: https://stackoverflow.com/questions/50979667/python-attributeerror-str-object-has-no-attribute-decode
+ 	 
+6.	How to read Windows environment variable value? [Internet]. Stack Overflow. [cited 2022 Dec 18]. Available from: https://stackoverflow.com/questions/10496748/how-to-read-windows-environment-variable-value
+ 	 
+7.	Git. Bootstrap Navbar with logo centered above navbar [Internet]. Coding Yaar. 2020 [cited 2022 Dec 18]. Available from: https://codingyaar.com/responsive-bootstrap-navbar-with-logo-centered-above-navbar/
+ 	 
+8.	Framework. How to fix Import could not be resolved from source Pylance [Internet]. Youtube; 2021 [cited 2022 Dec 18]. Available from: https://www.youtube.com/watch?v=5ud9Y2uB4PY
+ 	 
+9.	Pixabay.com. [cited 2022 Dec 18]. Available from: https://cdn.pixabay.com/photo/2020/04/26/01/34/books-5093228_960_720.png
+ 	 
+10.	How to create a filter/search table [Internet]. W3schools.com. [cited 2022 Dec 19]. Available from: https://www.w3schools.com/howto/howto_js_filter_table.asp
+
