@@ -6,6 +6,7 @@ This repository contains all files, scripts and documentation for final the Data
 <br>
 
 ---
+
 <br>
 <h2>Objectives</h2>
 
@@ -66,6 +67,7 @@ https://github.com/kmcd14/restAPI
 <li>Press enter. The cloned repository is now on your machine.
 </li>
 <li> To install the necessary packages in the same directory type the command: 
+
 <br>
 
     $pip install -r requirements.txt
@@ -83,13 +85,21 @@ Check the packages have been installed by typing the command:
 
 1. Navigate to the the folder where you cloned the repository.
 
-2. Open teminal and type the command:
+2. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```. Open teminal and type the command:
 
-        $python application.py
+        $python createDatabase.py
 
-3. Open browser and navigate to http://127.0.0.1:5000/
+3. Next type the following command into the terminal:
+
+          $python application.py
+
+4. Open browser and navigate to http://127.0.0.1:5000/
+
+
 
 ---
+
+
 <h2>PythonAnywhere Hosting</h2>
 
 The restAPI is hosted at the following link:
@@ -101,8 +111,25 @@ Pythonanywhere link:
 
  <h2>Database tables</h2>
  
+ The ```datarep``` database consists of two tables:
+
+1. users
+
+<img src='static\images\users_table.png'>
+
+<br>
+
+2. bookmarks
+
+<img src='static\images\bookmarks_table.png'>
+
+<br>
+
+username in the ```bookmarks``` table is a foregin key.
 
  ---
+
+
 <h2>References</h2>
 
 1.	Beatty A. Data Representation [Internet]. 2022. Available from: https://vlegalwaymayo.atu.ie/course/view.php?id=6209
