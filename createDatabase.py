@@ -72,7 +72,7 @@ class DataRepDAO:
     # Create the bookmarks table
     def createBookmarksTable(self):
         cursor = self.getcursor()
-        sql= "CREATE TABLE bookmarks (id INT NOT NULL PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE (url), FOREIGN KEY(id) REFERENCES users(user_id))"
+        sql = "CREATE TABLE bookmarks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, username VARCHAR(20), UNIQUE (url), FOREIGN KEY(username) REFERENCES users(username))"
         cursor.execute(sql)
         self.connection.commit()
         print('bookmarks table created')
