@@ -3,7 +3,17 @@ __pycache__
 
 # My configuration files
 dbconfig.py
+flask_session
 
-.venv/Lib
-python3 -m venv .venv
+
+virtualenv
 venv
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

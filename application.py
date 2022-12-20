@@ -1,18 +1,16 @@
-## Import libaries, database config file and DAO from seprate files
+# Import libaries, database config file and DAO from seprate files
 from flask import Flask, jsonify, abort, request, session
-#from flask_session import Session   
 from bookmarksDAO import bookmarkDAO
-import dbconfig as cfg
-import re
+import dbconfig 
 
    
 
-# Creating the Flask
+# Creating the Flask and setting secret key for session
 app = Flask(__name__, static_url_path='', static_folder='static')
+app.config['SECRET_KEY'] = 'super secret key'
 
 
-
-############################################################################
+# ############################################################################
 
 
 # Homepage route
@@ -32,6 +30,8 @@ def login():
             "username":request.json["username"],
             "password":request.json["password"]       
         }
+
+    session['username'] = account["username"]
 
     return jsonify(bookmarkDAO.login(account))
 
@@ -55,25 +55,15 @@ def register():
         "password":request.json["password"]
     }
 
-    if account:
-        return jsonify({"message":"Account already exists"})
-
-    elif not re.match(r'[^@]+@[^@]+\.[^@]+', account[1]):
-        return jsonify({"message": "Invalid email address"})
-
-    elif not account[0] or not account[2] or not account[1]:
-        return jsonify({"message":"invaild entry"})
-        
-    else:
-        return jsonify(bookmarkDAO.register(account))
+    return jsonify(bookmarkDAO.register(account))
     
 
 
 # Get all bookmarks 
-# curl "http://127.0.0.1:5000/booksmark"
-@app.route("/bookmark")
+# curl "http://127.0.0.1:5000/bookmark"
+@app.route("/bookmark", methods=["GET"])
 def getAll():
-    return jsonify(bookmarkDAO.get_all())
+    return jsonify(bookmarkDAO.getAllBookmarks())
 
 
 
@@ -81,7 +71,7 @@ def getAll():
 # curl "http://127.0.0.1:5000/bookmark/1"
 @app.route("/bookmark/<int:id>")
 def findById(id):
-    current_bookmark = bookmarkDAO.find_bookmark_by_id(id)
+    current_bookmark = bookmarkDAO.bookmarkById(id)
     print(current_bookmark)
     return jsonify(current_bookmark)
 
@@ -98,10 +88,11 @@ def create():
     bookmark = {
         "url":request.json["url"],
         "description":request.json["description"],
-        "category":request.json["category"]
+        "category":request.json["category"],
+        "username":request.json["username"]
     }
 
-    return jsonify(bookmarkDAO.create_bookmark(bookmark))
+    return jsonify(bookmarkDAO.createBookmark(bookmark))
 
 
 
@@ -109,7 +100,8 @@ def create():
 # curl -i -H "Content-Type:application/json" -X PUT -d "{\"url\":\"www.google.com/images\",\"description\":\"updated from homepage to google images\",\"category\":images}" http://127.0.0.1:5000/bookmark/1
 @app.route("/bookmark/<int:id>", methods = ["PUT"])
 def update(id):
-    foundBook = bookmarkDAO.find_bookmark_by_id(id)
+    foundBook = bookmarkDAO.bookmarkById(id)
+
     if not foundBook:
         abort(404)
     
@@ -123,22 +115,19 @@ def update(id):
     if 'category' in request.json:
         foundBook['category'] = request.json['category']
 
-    values = (foundBook['url'],foundBook['description'],foundBook['category'],foundBook['id'])
+    values = (foundBook['url'], foundBook['description'], foundBook['category'], foundBook['id'])
 
-    bookmarkDAO.update_bookmark(values)
+    bookmarkDAO.updateBookmark(values)
     return jsonify(foundBook)
         
-
 
 
 # Delete a bookmark
 # curl -X DELETE http://127.0.0.1:5000/bookmark/1
 @app.route("/bookmark/<int:id>", methods = ["DELETE"])
 def delete(id):
-
-    bookmarkDAO.delete_bookmark(id)
+    bookmarkDAO.deleteBookmark(id)
     return jsonify({"done":True})
-
 
 
 
