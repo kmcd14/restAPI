@@ -86,6 +86,14 @@
              return registeredInfo
          }
 
+        
+         // Clear register form
+        function clearForm() {
+            var form = document.getElementById('registerForm')
+            form.querySelector('input[name="username"]').value=''
+            form.querySelector('input[name="email"]').value=''
+            form.querySelector('input[name="password"]').value=''
+        }
 
 
         // Register a user                            
