@@ -61,7 +61,10 @@ class DataRepDAO:
     # Create the users table
     def createUsersTable(self):
         cursor = self.getcursor()
-        sql= "CREATE TABLE users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) NOT NULL UNIQUE, email VARCHAR(150) NOT NULL UNIQUE, password VARCHAR(15) NOT NULL)"
+
+        sql = '''CREATE TABLE users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) NOT NULL UNIQUE, 
+            email VARCHAR(150) NOT NULL UNIQUE, password VARCHAR(15) NOT NULL)'''
+
         cursor.execute(sql)
         self.connection.commit()
         print('users table created')
@@ -72,7 +75,11 @@ class DataRepDAO:
     # Create the bookmarks table
     def createBookmarksTable(self):
         cursor = self.getcursor()
-        sql = "CREATE TABLE bookmarks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url VARCHAR(500) NOT NULL, description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, username VARCHAR(20), UNIQUE (url), FOREIGN KEY(username) REFERENCES users(username))"
+
+        sql = '''CREATE TABLE bookmarks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, url VARCHAR(500) NOT NULL, 
+                description VARCHAR(200), category VARCHAR(30), created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+                username VARCHAR(20), UNIQUE (url), FOREIGN KEY(username) REFERENCES users(username))'''
+
         cursor.execute(sql)
         self.connection.commit()
         print('bookmarks table created')
@@ -91,4 +98,4 @@ if __name__ == "__main__":
     datarepDAO.createUsersTable()
     datarepDAO.createBookmarksTable()
 
-    #print("code is working :)")
+    #print("running :)")
