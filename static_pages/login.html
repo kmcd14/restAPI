@@ -93,7 +93,7 @@
         
          // Clear register form
         function clearForm() {
-            var form = document.getElementById('registerForm')
+            var form = document.getElementById('registerFormHolder')
             form.querySelector('input[name="username"]').value=''
             form.querySelector('input[name="email"]').value=''
             form.querySelector('input[name="password"]').value=''
@@ -118,6 +118,7 @@
 
                 error: function(xhr, status, error) { 
                     console.log("error " + error + " code "+ status)
+                    location.reload();
                }
             })
         }
@@ -154,6 +155,7 @@
                 error: function(xhr, status, error){   
                     window.alert("Invaild username and/or password");
                     console.log("error "+ error + " code "+ status)
+                    location.reload();
                }
             })
         }
