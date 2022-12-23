@@ -61,7 +61,7 @@ class DataRepDAO:
     # Create the users table
     def createUsersTable(self):
         cursor = self.getcursor()
-        sql= "CREATE TABLE users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) NOT NULL, email VARCHAR(150) NOT NULL, password VARCHAR(15) NOT NULL, UNIQUE (username, email))"
+        sql= "CREATE TABLE users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(20) NOT NULL, email VARCHAR(150) NOT NULL, password VARCHAR(15) NOT NULL, UNIQUE(username, email))"
         cursor.execute(sql)
         self.connection.commit()
         print('users table created')
