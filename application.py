@@ -6,8 +6,8 @@ import dbconfig
    
 
 # Creating the Flask and setting secret key for session
-app = Flask(__name__, static_url_path='', static_folder='static')
-app.config['SECRET_KEY'] = 'super secret key'
+app = Flask(__name__, static_url_path='', static_folder='static_pages')
+app.config['SECRET_KEY'] = 'secret'
 
 
 # ############################################################################
@@ -17,7 +17,7 @@ app.config['SECRET_KEY'] = 'super secret key'
 @app.route('/')
 def index():
     if not 'username' in session:
-        return app.send_static_file('index.html')
+        return app.send_static_file('/index.html')
 
 
 
@@ -41,6 +41,7 @@ def login():
 @app.route("/logout", methods = ["POST"])
 def logout():
     session.pop("username", None)
+
     return app.send_static_file('index.html')
  
 
@@ -57,6 +58,14 @@ def register():
 
     return jsonify(bookmarkDAO.register(account))
     
+
+
+# Get all users 
+# curl "http://127.0.0.1:5000/users"
+@app.route("/users", methods=["GET"])
+def getAllUsers():
+    return jsonify(bookmarkDAO.getAllUsers())
+
 
 
 # Get all bookmarks 
@@ -115,7 +124,7 @@ def update(id):
     if 'category' in request.json:
         foundBook['category'] = request.json['category']
 
-    values = (foundBook['url'], foundBook['description'], foundBook['category'], foundBook['id'])
+    values = (foundBook['url'], foundBook['description'], foundBook['category'], foundBook['username'])
 
     bookmarkDAO.updateBookmark(values)
     return jsonify(foundBook)
@@ -128,6 +137,27 @@ def update(id):
 def delete(id):
     bookmarkDAO.deleteBookmark(id)
     return jsonify({"done":True})
+
+
+
+# Find bookmark by category 
+# curl "http://127.0.0.1:5000/bookmark/reference"
+@app.route("/bookmark/<category>", methods=["GET"])
+def getCategory(category):
+    current_bookmark = bookmarkDAO.getCategory(category)
+    print(current_bookmark)
+    return jsonify(current_bookmark)
+
+
+
+# Find bookmark by user
+# curl "http://127.0.0.1:5000/katie"
+@app.route("/<username>",methods=["GET"])
+def UserBookmarks(username):
+    current_bookmark = bookmarkDAO.getUserBookmarks(username)
+    print(current_bookmark)
+    return jsonify(current_bookmark)
+
 
 
 
