@@ -1,0 +1,162 @@
+
+<html>
+    <head>
+
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Data Rep project">
+        <meta name="author" content="Katie Mc Donald">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <link rel="stylesheet" href="/css/login.css/">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">      
+    </head>     
+
+                                                
+    </style>
+    <header>
+        <!-- Navigation menu at the top of the page -->
+        <nav class="navbar navbar-light" style="background-color: #2c2626e0;">
+            <ul  class="navbar-nav ml-auto"> 
+            <a class="navbar-brand" style="color: white; font-size: 2em;" href="/index.html/">Home<a>
+            </ul>
+            <span class="navbar-toggler-icon"></span>
+        </nav>
+    </header>
+    
+    <!-- Main container -->
+    <div id="main">
+        <div id="container">
+            <div id="formHolder" >  
+                
+                <!-- Login form -->
+                <div id = "loginFormHolder" style="display:block">
+                    <h2>Login</h2>
+                    <table id = "loginForm">
+                        <tr>
+                            <td><input type = "text" name = "username" placeholder="Username" required></td>
+                        </tr>
+                        <tr>
+                            <td><input type = "password" name = "password" placeholder="Password" required></td>
+                        </tr>
+                        <tr>
+                            <td><button id = "login" onClick="userLogin()">Login</button></td>
+                            <td><button class="btn btn-outline-light" id = "register" onClick="showRegister()">Register</button></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Registration form -->
+                <div id = "registerFormHolder" style="display:none">
+                    <h2>Register</h2>
+                    <table id = "registerForm">
+                        <tr>   
+                            <td><input type = "text" name = "username" placeholder="Username" required></td>
+                        </tr>
+                        <tr>
+                            <td><input type = "email" name = "email" placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required></td>
+                        </tr>
+                        <tr>
+                            <td><input type = "password" name = "password" placeholder="Password" required></td>
+                        </tr>
+                        <tr>                   
+                            <td><button id = "register" onClick="registerUser()">Register</button></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+       
+    <script>
+        
+        // Switch the visibility to the register form
+        function showRegister() {
+            document.getElementById("loginFormHolder").style = "display:none";
+            document.getElementById("registerFormHolder").style = "display:block"
+        }
+
+        
+         // Get user details from the registeration form 
+         function getRegistration() {
+             var form = document.getElementById("registerForm")
+             registeredInfo = {}
+             registeredInfo.username = form.querySelector('input[name="username"]').value
+             registeredInfo.email = form.querySelector('input[name="email"]').value
+             registeredInfo.password = form.querySelector('input[name="password"]').value
+             return registeredInfo
+         }
+
+        
+         // Clear register form
+        function clearForm() {
+            var form = document.getElementById('registerForm')
+            form.querySelector('input[name="username"]').value=''
+            form.querySelector('input[name="email"]').value=''
+            form.querySelector('input[name="password"]').value=''
+        }
+
+
+        // Register a user                            
+        function registerUser() {
+            data = getRegistration()
+            $.ajax({
+
+                url:"http://127.0.0.1:5000/register",
+                data: JSON.stringify(data),
+                method:"POST",
+                dataType:"JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
+                    window.alert("You have been registered")     
+                    document.getElementById("registerFormHolder").style = "display:none"
+                    document.getElementById("loginFormHolder").style = "display:block"; 
+                },
+
+                error: function(xhr, status, error) { 
+                    console.log("error " + error + " code "+ status)
+               }
+            })
+        }
+
+
+
+        // Get user details from the login form
+        function getLogin() {
+            var form = document.getElementById("loginForm")
+            loginInfo = {}
+            loginInfo.username = form.querySelector('input[name="username"]').value
+            loginInfo.password = form.querySelector('input[name="password"]').value
+            return loginInfo
+        }
+
+
+        // Login a user
+        function userLogin() {
+            data = getLogin()
+            console.log(data)
+            
+            $.ajax({
+                url:"http://127.0.0.1:5000/login",
+                data: JSON.stringify(data),
+                method:"POST",
+                dataType:"JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {  
+
+                    if (result == 1) {
+                        window.location.replace("/main.html/");    // Redirect to to main.html if successful 
+                    } 
+                },
+                error: function(xhr, status, error){   
+                    window.alert("Invaild username and/or password");
+                    console.log("error "+ error + " code "+ status)
+               }
+            })
+        }
+
+    </script> 
+</html>
