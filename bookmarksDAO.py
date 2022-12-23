@@ -47,17 +47,15 @@ class BookmarkDAO:
 
         sql = "INSERT INTO users (username, email, password) VALUES (%s, %s,%s)"
         values = [
-            account[0], 
-            account[1],
-            account[2]
+            account["username"], 
+            account["email"],
+            account["password"]
         ]
     
         cursor.execute(sql,values)
-        cursor.fetchone()
         self.connection.commit()
         print ("user registered")
-        
-        return 1
+        return 1  
         
           
    
@@ -97,6 +95,35 @@ class BookmarkDAO:
        return user
 
 
+    
+    # Function to get all users
+    def getAllUsers(self):
+        cursor = self.getcursor()     
+        sql = "SELECT * FROM users"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        return_arr = [] # Empty array to store the data from the dict
+        
+        for r in result:
+            result_as_dict = self.userDict(r)
+            return_arr.append(result_as_dict)     
+        self.closeAll()
+        return return_arr
+
+
+    
+    # Function to convert getAllUsers response to a dict
+    def userDict(self,result):
+        colnames = ["id","username","email", "password"]
+        bookmark= {}
+
+        if result:
+            for c, col_name in enumerate(colnames):
+                value = result[c]
+                bookmark[col_name] = value
+        return bookmark
+
+
 
     # Function to create a bookmark
     def createBookmark(self, bookmark):
@@ -105,16 +132,17 @@ class BookmarkDAO:
 
         sql = "INSERT INTO bookmarks(url, description, category, username) VALUES (%s,%s,%s,%s)"
         values = [
-            bookmark[0],
-            bookmark[1],
-            bookmark[2],
-            bookmark[3],
+            bookmark["url"],
+            bookmark["description"],
+            bookmark["category"],
+            bookmark["username"],
         ]  
 
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
         return cursor.lastrowid # Next id
+        
         
 
     # Function to get all bookmarks
@@ -133,7 +161,7 @@ class BookmarkDAO:
        
 
 
-    # Function to convert response to a dict
+    # Function to convert getAllBookmarks response to a dict
     def convert_to_dict(self,result):
         colnames = ["id","url","description","category", "created", "username"]
         bookmark= {}
@@ -160,7 +188,7 @@ class BookmarkDAO:
         
 
 
-    # Function to get a users bookmark
+    # Function to get bookmarks by category
     def getCategory(self, category):
       cursor = self.getcursor()
 
@@ -179,7 +207,7 @@ class BookmarkDAO:
 
 
 
-    # Function to get bookmarks by category
+    # Function to get bookmarks by a user
     def getUserBookmarks(self, username):
       cursor = self.getcursor()
       sql = "SELECT * FROM bookmarks WHERE username = %s"
@@ -194,11 +222,11 @@ class BookmarkDAO:
       return allBookmarks
 
 
+
     # Function to update bookmark
     def updateBookmark(self, bookmark):
         cursor = self.getcursor() 
         sql = "UPDATE bookmarks SET url = %s, description = %s, category = %s WHERE username = %s"
-        #values = ("www.google.com/images", "google images", "research", "dana_scully")
         values = [
             bookmark[0], 
             bookmark[1],
@@ -230,7 +258,7 @@ class BookmarkDAO:
 bookmarkDAO = BookmarkDAO()
 
 if __name__ == "__main__":
-    print('ughhhhhhhhhhhhhh')
+    print('running')
 
 
     ###### USERS ######
@@ -241,7 +269,7 @@ if __name__ == "__main__":
     #bookmarkDAO.register(user)
     #bookmarkDAO.register(user1)
     #bookmarkDAO.register(user2)
-#
+
     ###### PROJECT REFERENCES ADDED TO DATABASE ######
 
     #data = ("https://www.space.com/ufos-101-hype-uproar-disinformation-mystery","the truth is out there","space", "mulder")
@@ -257,9 +285,6 @@ if __name__ == "__main__":
     #data10 = ("https://pixabay.com/photos/books-bookstore-book-reading-1204029/","Pixabay.com.","image reference", "katie")
     #data11 = ("https://www.w3schools.com/howto/howto_js_filter_table.asp","How to create a filter/search table [Internet]. W3schools.com.","reference", "katie")
     #data12 = ("https://stackoverflow.com/questions/24627075/jquery-ajax-url-path-issue","Jquery Ajax url path Issue [Internet]. Stack Overflow.","reference", "katie")
-#
-#
-#
     #bookmarkDAO.createBookmark(data)
     #bookmarkDAO.createBookmark(data1)
     #bookmarkDAO.createBookmark(data2)
@@ -273,35 +298,3 @@ if __name__ == "__main__":
     #bookmarkDAO.createBookmark(data10)
     #bookmarkDAO.createBookmark(data11)
     #bookmarkDAO.createBookmark(data12)
-
-
-    ########### TESTS #############
-
-    # Update user
-    #data = ("www.youtube.com", "AAAAAAAAA", "research", 4)
-    #bookmarkDAO.updateBookmark(data)
-
-    #a = bookmarkDAO.bookmarkById(4)
-    #print(a)
-
-    # Create a bookmark
-    #data = ("www.goggle.com", "google homepage", "research", "scully")
-    #bookmarksDAO.createBookmark(data)
-
-    # Get one bookmark
-    #oneBookmark = bookmarksDAO.getOneBookmark(1)
-    #print(oneBookmark)
-
-    # Get all bookmarks
-    #bookmarkCount = bookmarksDAO.getAllBookmarks()
-    #print(bookmarkCount)
-
-    # Update data
-    #data = ("www.google.com/images", "google images", "research", "scully")
-    #bookmarksDAO.updateBookmark(data)
-
-    # Delete user
-    #bookmarksDAO.deleteUser(1)
-
-    #data101 = ("www.aliens.org", "the truth is out there", "outerspace 101", "mulder")
-    #bookmarkDAO.createBookmark(data10)
