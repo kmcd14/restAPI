@@ -63,8 +63,6 @@ This repository contains all files, scripts and documentation for final the Data
 
  ---
 
-
-<br>
 <h2><b><u><p id='get'> How To Get The Repository on Your Machine</b></u></p></h2>
 <br>
 <ol>
