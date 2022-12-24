@@ -24,7 +24,7 @@ This repository contains all files, scripts and documentation for final the Data
 
 - Create a Web application in Flask that has a REST API.
 - The application should link to one or more database tables.
-- Create accompanying web interface, using AJAX calls, to perform these CRUD operations
+- Create accompanying web interface, using AJAX calls, to perform these CRUD operations.
 
 
 <br>
@@ -140,6 +140,7 @@ replace the `username` and `apassword` values with your own details.
 
 5. Flask is now running. Open your browser and navigate to ```http://127.0.0.1:5000```.
 
+6. For the web interface enter ```http://127.0.0.1:5000/index.html/```.
 
 
 ---
