@@ -1,14 +1,25 @@
 # restAPI - DATA REPRESENTATION PROJECT
 
-<br>
-This repository contains all files, scripts and documentation for final the Data Representation module. 
 
 <br>
-
----
+<h2 style=color:#DDA0DD><b><u>Table of Contents</b></u></h2></summary>
+  <ol>
+    <li><a href='#Description'> Description</a></li>
+    <li><a href='#Contents'>Repository Contents</a></li>
+    <li><a href="#tables">Database Tables</a></li>
+    <li><a href="#get">How To Get The Respoistory on Your Machine</a></li>
+    <li><a href="#app">Running Application On Local Server</a></li>
+    <li><a href="#host">Pythonanywhere Link</a></li>
+    <li><a href="#ref">References</a></li> 
+  </ol>
 
 <br>
-<h2>Objectives</h2>
+<h2><b><u><p id='Description'> Description</b></u></p></h2>
+
+This repository contains all files, scripts and documentation for final the Data Representation module. The aim of this project is to to demonstrate that you understand creating and consuming RESTful APIs. My restAPI allows users to login/register and to display, create, update and delete their web bookmarks.
+
+<br>
+<h3>Objectives</h3>
 
 - Create a Web application in Flask that has a REST API.
 - The application should link to one or more database tables.
@@ -19,21 +30,41 @@ This repository contains all files, scripts and documentation for final the Data
 
 ---
 
-<br>
+<h2><b><u><p id='Contents'>Repository Contents</b></u></p></h2>
 
-<h2>Repository Contents</h2>
-
-- ```static``` - Folder containing web html pages and images.
+- ```static_pages``` - Folder containing three web HTML pages (index.html, login.html, main.html), css folder and images folder.
 - ````application.py```` - Flask server.
-- ````createDB.py```` - create the database and tables.
-- ```bookmarksDAO.py``` - a data access object (DAO) to interact with the created database.
+- ````createDB.py```` - Script to create the database and tables.
+- ```bookmarksDAO.py``` - Creates a data access object (DAO) to interact with the created database.
 - ```project_brief.pdf``` - The project brief.
+- ```requirements.txt``` - The package requirements to run the project.
 
 
 ---
 
+<h2><b><u><p id='tables'>Database Tables</b></u></p></h2>
+
+ The ```datarep``` database consists of two tables:
+
+1. users
+
+<img src='static\images\users_table.png'>
+
 <br>
-<h2><b><u><p id='Script'> How To Get The Repository on Your Machine</b></u></p></h2>
+
+2. bookmarks
+
+<img src='static\images\bookmarks_table.png'>
+
+<br>
+
+```username``` in the ```bookmarks``` table is a foregin key.
+
+ ---
+
+
+<br>
+<h2><b><u><p id='get'> How To Get The Repository on Your Machine</b></u></p></h2>
 <br>
 <ol>
 
@@ -81,56 +112,53 @@ Check the packages have been installed by typing the command:
 
 ---
 
-<h2><b><u><p id='Script'> Running Application</b></u></p></h2>
+<h2><b><u><p id='app'> Running Application On Local Server</b></u></p></h2>
 
 1. Navigate to the the folder where you cloned the repository.
 
-2. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```. Open teminal and type the command:
+2. Create a new file called ```dbconfig.py``` and copy and paste the following:
+
+```
+   mysql = {
+        'host': 'localhost',
+         'user': 'username',
+         'password': 'apassword',
+         'database': 'datarep'
+  }
+
+```
+
+
+replace the `username` and `apassword` values with your own details.
+
+3. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```. Open teminal and type the command:
 
         $python createDatabase.py
 
-3. Next type the following command into the terminal:
+4. Once the database and tables are created, type the following command into the terminal:
 
           $python application.py
 
-4. Open browser and navigate to http://127.0.0.1:5000/
+5. Flask is now running. Open your browser and navigate to ```http://127.0.0.1:5000```.
 
 
 
 ---
 
+<h2><b><u><p id='host'>PythonAnywhere Hosting</b></u></p></h2>
 
-<h2>PythonAnywhere Hosting</h2>
+The application is hosted on ```pythonanywhere``` at: http://g00398279.pythonanywhere.com/index.html/
 
-The restAPI is hosted at the following link:
-Pythonanywhere link:
 
- http://XXXXXXXXXXXXXXXXX
+I have added some data to the database you can register your own user or login with:
 
- ---
-
- <h2>Database tables</h2>
- 
- The ```datarep``` database consists of two tables:
-
-1. users
-
-<img src='static\images\users_table.png'>
-
-<br>
-
-2. bookmarks
-
-<img src='static\images\bookmarks_table.png'>
-
-<br>
-
-username in the ```bookmarks``` table is a foregin key.
+- username: ```mulder```
+- password: ```aliens```
 
  ---
 
 
-<h2>References</h2>
+<h2><b><u><p id='ref'>References</b></u></p></h2>
 
 1.	Beatty A. Data Representation [Internet]. 2022. Available from: https://vlegalwaymayo.atu.ie/course/view.php?id=6209
  	 
@@ -151,4 +179,9 @@ username in the ```bookmarks``` table is a foregin key.
 9.	Pixabay.com. [cited 2022 Dec 18]. Available from: https://cdn.pixabay.com/photo/2020/04/26/01/34/books-5093228_960_720.png
  	 
 10.	How to create a filter/search table [Internet]. W3schools.com. [cited 2022 Dec 19]. Available from: https://www.w3schools.com/howto/howto_js_filter_table.asp
+
+11. Jquery Ajax url path Issue [Internet]. Stack Overflow. [cited 2022 Dec 23]. Available from: https://stackoverflow.com/questions/24627075/jquery-ajax-url-path-issue
+
+12. PythonAnywhere LLP. Forums [Internet]. Pythonanywhere.com. [cited 2022 Dec 24]. Available from: https://www.pythonanywhere.com/forums/topic/32182/
+
 
