@@ -1,5 +1,6 @@
 # restAPI - DATA REPRESENTATION PROJECT
 
+<img src='static_pages\images\restapi.png'>
 
 <br>
 <h2 style=color:#DDA0DD><b><u>Table of Contents</b></u></h2></summary>
@@ -18,7 +19,7 @@
 
 This repository contains all files, scripts and documentation for final the Data Representation module. The aim of this project is to to demonstrate that you understand creating and consuming RESTful APIs. My restAPI allows users to login/register and to display, create, update and delete their web bookmarks.
 
-<br>
+
 <h3>Objectives</h3>
 
 - Create a Web application in Flask that has a REST API.
@@ -91,7 +92,7 @@ https://github.com/kmcd14/restAPI
 <br>
 
     
-    $git clone git@github.com:kmcd14/MLandStats-assessment.git
+    $git clone git@github.com:kmcd14/restAPI.git
 
 <br>
 </li>
