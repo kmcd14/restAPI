@@ -46,15 +46,15 @@ This repository contains all files, scripts and documentation for final the Data
 
  The ```datarep``` database consists of two tables:
 
-1. users
+<h3>1. users</h3>
 
-<img src='static\images\users_table.png'>
+<img src='static_pages\images\users_table.png'>
 
 <br>
 
-2. bookmarks
+<h3>2. bookmarks</h3>
 
-<img src='static\images\bookmarks_table.png'>
+<img src='static_pages\images\bookmarks_table.png'>
 
 <br>
 
@@ -77,7 +77,7 @@ https://github.com/kmcd14/restAPI
 
 
 
-<img src='static\images\repository.png'>
+<img src='static_pages\images\repository.png'>
 
 <br>
 
