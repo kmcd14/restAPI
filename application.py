@@ -17,7 +17,8 @@ app.config['SECRET_KEY'] = 'secret'
 @app.route('/')
 def index():
     if not 'username' in session:
-        return app.send_static_file('/index.html')
+        return app.send_static_file('/login.html')
+    return app.send_static_file('/index.html')
 
 
 
@@ -47,6 +48,7 @@ def logout():
 
 
 # Register a new user
+# # curl -i -H "Content-Type:application/json" -X POST -d "{\"username\":\"katie\",\"email":\"katie@email.com\",\"password":apassword}" http://127.0.0.1:5000/register
 @app.route('/register', methods = ["POST"])
 def register():
 
