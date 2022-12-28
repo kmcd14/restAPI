@@ -89,7 +89,7 @@ def findById(id):
 
 
 # Create a bookmark
-# curl -i -H "Content-Type:application/json" -X POST -d "{\"url\":\"www.google.com\",\"description":\"google homepage\",\"category\":research}" http://127.0.0.1:5000/bookmark
+# curl -i -H "Content-Type:application/json" -X POST -d "{\"url\":\"www.google.com\",\"description":\"google homepage\",\"category\":research",\"username\":katie}" http://127.0.0.1:5000/bookmark
 @app.route("/bookmark", methods = ["POST"])
 def create():
 
