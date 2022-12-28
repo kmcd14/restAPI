@@ -59,7 +59,7 @@ This repository contains all files, scripts and documentation for final the Data
 
 <br>
 
-```username``` in the ```bookmarks``` table is a foregin key.
+<u><b>***Note: ```username``` in the ```bookmarks``` table is a foreign key. Please note a username must exist in the ```users``` table in order to create a bookmark.</b></u>
 
  ---
 
@@ -130,7 +130,7 @@ Check the packages have been installed by typing the command:
 
 replace the `username` and `apassword` values with your own details.
 
-3. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```. Open teminal and type the command:
+3. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```, type the command:
 
         $python createDatabase.py
 
@@ -183,5 +183,8 @@ I have added some data to the database you can register your own user or login w
 11. Jquery Ajax url path Issue [Internet]. Stack Overflow. [cited 2022 Dec 23]. Available from: https://stackoverflow.com/questions/24627075/jquery-ajax-url-path-issue
 
 12. PythonAnywhere LLP. Forums [Internet]. Pythonanywhere.com. [cited 2022 Dec 24]. Available from: https://www.pythonanywhere.com/forums/topic/32182/
+
+13.	Substackcdn.com. [cited 2022 Dec 24]. Available from: https://substackcdn.com/image/fetch/w_1200,h_600,c_limit,f_jpg,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F9304f962-8752-427c-bb80-0d02a62c4ed2_1280x720.png
+
 
 
