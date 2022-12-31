@@ -132,11 +132,21 @@ replace the `username` and `apassword` values with your own details.
 
 3. To create the database ```datarep``` and the two tables ```users``` and ```bookmarks```, type the command:
 
-        $python createDatabase.py
+```
+  $python createDatabase.py
+```
+
+Additonally, there is data at the bottom of ```bookmarksDAO.py``` which can be uncommented to add data to the local database. If you wish to use this data, uncomment it and type the command:
+    
+```
+  $python bookmarksDAO.py
+```
 
 4. Once the database and tables are created, type the following command into the terminal:
 
-          $python application.py
+```
+  $python application.py
+```
 
 5. Flask is now running. Open your browser and navigate to ```http://127.0.0.1:5000```.
 
