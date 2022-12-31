@@ -260,23 +260,43 @@ bookmarkDAO = BookmarkDAO()
 if __name__ == "__main__":
     print('running')
 
+ 
     ###### TEST DATA ######
-
+    
     ###### USERS ######
-    #user = [("katie", "g00398279@atu.ie", "password"), ("mulder", "spooky@fbi.com", "aliens"), ("scully", "scully@fbi.com", "sigh")]
+    #user = {"username":"mulder", "email":"spooky@fbi.com", "password": "aliens"}
+    #user2 = {"username":"scully", "email":"scully@fbi.com", "password":"sigh"}
+    #user3 = {"username":"katie", "email":"g00398279@atu.ie", "password": "password"}
+    
     #bookmarkDAO.register(user)
+    #bookmarkDAO.register(user2)
+    #bookmarkDAO.register(user3)
+ 
    
-
     ###### PROJECT REFERENCES ADDED TO DATABASE ######
-
-    #data = [("https://www.space.com/ufos-101-hype-uproar-disinformation-mystery","the truth is out there","space", "mulder"),
-    #        ("https://www.skeptic.com/skepticism-101/","sure fine whatever", "debunk", "scully"), ("https://vlegalwaymayo.atu.ie/course/view.php?id=6209","Beatty A. Data Representation [Internet]. 2022.","reference", "katie"),
-    #        ("https://stackoverflow.com/questions/635937/how-do-i-specify-unique-constraint-for-multiple-columns-in-mysql","How do I specify unique constraint for multiple columns in MySQL? [Internet]. Stack Overflow.", "reference", "katie"), 
-    #        ("https://towardsdatascience.com/create-and-deploy-a-simple-web-application-with-flask-and-heroku-103d867298eb","Venkatesan N. Create and deploy a simple web application with flask and heroku [Internet]. Towards Data Science.","reference", "katie"), 
-    #        ("https://stackoverflow.com/questions/50979667/python-attributeerror-str-object-has-no-attribute-decode","Python AttributeError: “str” object has no attribute “decode” [Internet]. Stack Overflow.","reference", "katie"),
-    #        ("https://stackoverflow.com/questions/10496748/how-to-read-windows-environment-variable-value","How to read Windows environment variable value? [Internet]. Stack Overflow.","reference", "katie"),
-    #        ("https://codingyaar.com/responsive-bootstrap-navbar-with-logo-centered-above-navbar/","Git. Bootstrap Navbar with logo centered above navbar [Internet]. Coding Yaar. 2020","reference", "katie"), 
-    #        ("https://www.youtube.com/watch?v=5ud9Y2uB4PY","Framework. How to fix Import could not be resolved from source Pylance [Internet]. Youtube","reference", "katie"), ("https://cdn.pixabay.com/photo/2020/04/26/01/34/books-5093228_960_720.png","Pixabay.com","image reference", "katie"),
-    #        ("https://pixabay.com/photos/books-bookstore-book-reading-1204029/","Pixabay.com.","image reference", "katie"),
-    #        ("https://www.w3schools.com/howto/howto_js_filter_table.asp","How to create a filter/search table [Internet]. W3schools.com.","reference", "katie"),
-    #        ("https://stackoverflow.com/questions/24627075/jquery-ajax-url-path-issue","Jquery Ajax url path Issue [Internet]. Stack Overflow.","reference", "katie")]
+    #data = {"url":"https://www.space.com/ufos-101-hype-uproar-disinformation-mystery","description":"the truth is out there", "category":"space", "username":"mulder"}
+    #data2 = {"url":"https://www.skeptic.com/skepticism-101/", "description":"sure fine whatever", "category":"debunk", "username":"scully"}
+    #data3 = {"url":"https://vlegalwaymayo.atu.ie/course/view.php?id=6209", "description": "Beatty A. Data Representation [Internet]. 2022.", "category":"reference", "username":"katie"}
+    #data4 = {"url":"https://stackoverflow.com/questions/635937/how-do-i-specify-unique-constraint-for-multiple-columns-in-mysql", "description":"How do I specify unique constraint for multiple columns in MySQL? [Internet]. Stack Overflow.", "category":"reference", "username":"katie"}  
+    #data5 = {"url":"https://towardsdatascience.com/create-and-deploy-a-simple-web-application-with-flask-and-heroku-103d867298eb", "description":"Venkatesan N. Create and deploy a simple web application with flask and heroku [Internet]. Towards Data Science.", "category":"reference", "username":"katie"}  
+    #data6 = {"url":"https://stackoverflow.com/questions/50979667/python-attributeerror-str-object-has-no-attribute-decode","description":"Python AttributeError: “str” object has no attribute “decode” [Internet]. Stack Overflow.", "category":"reference", "username":"katie"}      
+    #data7 = {"url":"https://stackoverflow.com/questions/10496748/how-to-read-windows-environment-variable-value","description":"How to read Windows environment variable value? [Internet]. Stack Overflow.", "category":"reference", "username":"katie"}
+    #data7 = {"url":"https://codingyaar.com/responsive-bootstrap-navbar-with-logo-centered-above-navbar/","description":"Git. Bootstrap Navbar with logo centered above navbar [Internet]. Coding Yaar. 2020", "category":"reference", "username":"katie"} 
+    #data8 = {"url":"https://www.youtube.com/watch?v=5ud9Y2uB4PY", "description":"Framework. How to fix Import could not be resolved from source Pylance [Internet]. Youtube", "category":"reference", "username":"katie"} 
+    #data9 = {"url":"https://cdn.pixabay.com/photo/2020/04/26/01/34/books-5093228_960_720.png", "description":"Pixabay.com", "category":"image reference", "username":"katie"}
+    #data10 = {"url":"https://pixabay.com/photos/books-bookstore-book-reading-1204029/","description":"Pixabay.com.", "category":"image reference", "username":"katie"}
+    #data11 = {"url":"https://www.w3schools.com/howto/howto_js_filter_table.asp", "description":"How to create a filter/search table [Internet]. W3schools.com.", "category":"reference", "username":"katie"}
+    #data12 = {"url":"https://stackoverflow.com/questions/24627075/jquery-ajax-url-path-issue", "description":"Jquery Ajax url path Issue [Internet]. Stack Overflow.", "category":"reference", "username":"katie"}
+    
+    #bookmarkDAO.createBookmark(data)
+    #bookmarkDAO.createBookmark(data2)
+    #bookmarkDAO.createBookmark(data3)
+    #bookmarkDAO.createBookmark(data4)
+    #bookmarkDAO.createBookmark(data5)
+    #bookmarkDAO.createBookmark(data6)
+    #bookmarkDAO.createBookmark(data7)
+    #bookmarkDAO.createBookmark(data8)
+    #bookmarkDAO.createBookmark(data9)
+    #bookmarkDAO.createBookmark(data10)
+    #bookmarkDAO.createBookmark(data11)
+    #bookmarkDAO.createBookmark(data12)
